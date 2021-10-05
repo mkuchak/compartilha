@@ -1,0 +1,17 @@
+Query(
+  Lambda(
+    ["id"],
+    Insert(
+      Ref(Collection('causes'), '181388642581742080'),
+      1,
+      'create',
+      {
+        data: {
+          name: 'Mountain\'s Thunder',
+          cost: 10,
+          element: ['air', 'earth'],
+        },
+      },
+    )
+  )
+)
