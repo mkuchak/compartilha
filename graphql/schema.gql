@@ -1,0 +1,91 @@
+type User {
+  email: String! @unique
+  phone: String @unique
+  password: String
+  firstName: String!
+  lastName: String!
+  longitude: String
+  latitude: String
+  lastIp: String
+  lastLogin: String
+  isAdmin: Boolean
+  isSuperAdmin: Boolean
+  isActive: Boolean
+  address: Address @relation
+  institution: Institution @relation (name: "user_institution")
+  associated: Institution @relation (name: "user_associated")
+}
+
+type Institution {
+  companyName: String
+  tradingName: String!
+  inscription: String! @unique
+  description: String
+  pixKey: String
+  impactedPeople: Int
+  foundationDate: String
+  isActive: Boolean
+  otherCause: String
+  cause: [Cause]
+  address: Address! @relation
+  item: [Item]
+  user: User! @relation (name: "user_institution")
+  associates: [User] @relation (name: "user_associated")
+}
+
+type Address {
+  cep: String!
+  state: String!
+  city: String!
+  neighborhood: String!
+  street: String!
+  number: String!
+  complement: String
+  user: User
+  institution: Institution
+}
+
+type Cause {
+  name: String! @unique
+  institution: [Institution] @relation
+}
+
+type Item {
+  name: String! @unique
+  price: Float!
+  category: [Category]
+  institution: [Institution] @relation
+}
+
+type Category {
+  name: String! @unique
+  institution: [Item] @relation
+}
+
+# Examples of institutional causes:
+# • Combate ao abuso infantil e apoio às vítimas
+# • Educação de crianças e jovens
+# • Crianças desaparecidas
+# • Crianças com deficiência
+# • Apoio a crianças com câncer
+# • Apoio a mulheres vítimas de violência
+# • Empoderamento feminino
+# • Combate à desigualdade racial
+# • Apoio a pessoas em situação de rua
+# • Apoio a adultos com câncer
+# • Combate à pobreza
+# • Inclusão de pessoas com deficiência
+# • Apoio a dependentes químicos
+# • Acolhimento e melhora da qualidade de vida de idosos
+# • Defesa dos direitos indígenas
+# • Preservação do meio ambiente
+# • Ajuda a animais abandonados
+
+input CauseInput {
+  name: String!
+  institution: [ID]
+}
+
+type Mutation {
+  createCauses(input: [CauseInput]): [Cause] @resolver(name: "create_causes")
+}
