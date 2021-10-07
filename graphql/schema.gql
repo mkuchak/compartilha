@@ -59,7 +59,7 @@ type Item {
 
 type Category {
   name: String! @unique
-  institution: [Item] @relation
+  item: [Item] @relation
 }
 
 # Examples of institutional causes:
