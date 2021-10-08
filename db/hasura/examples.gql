@@ -1,29 +1,59 @@
-mutation MyMutation {
+mutation CreateUser {
   insert_user_one(
     object: {
-      email: ""
-      phone: ""
-      password: ""
-      first_name: ""
-      last_name: ""
-      is_admin: false
-      is_super_admin: false
+      email: "johndoe@gmail.com"
+      password: "123"
+      first_name: "John"
+      last_name: "Doe"
       address: {
         data: {
-          zip: ""
-          state: ""
-          city: ""
-          neighborhood: ""
-          street: ""
-          number: ""
-          complement: ""
+          zip: "98700-000"
+          state: "Rio Grande do Sul"
+          city: "Ijuí"
+          neighborhood: "Centro"
+          street: "Rua José Bonifácio"
+          number: 987
+          complement: "Casa"
         }
       }
     }
   ) {
     id
+    email
     address {
       id
+      zip
     }
   }
 }
+
+mutation CreateUser($object: user_insert_input!) {
+  insert_user_one(object: $object) {
+    id
+    email
+    address {
+      id
+      zip
+    }
+  }
+}
+
+# {
+#   "object": {
+#       "email": "johndoe@gmail.com",
+#       "password": "123",
+#       "first_name": "John",
+#       "last_name": "Doe",
+#       "address": {
+#         "data": {
+#           "zip": "98700-000",
+#           "state": "Rio Grande do Sul",
+#           "city": "Ijuí",
+#           "neighborhood": "Centro",
+#           "street": "Rua José Bonifácio",
+#           "number": 987,
+#           "complement": "Casa"
+#         }
+#       }
+#     }
+# }
