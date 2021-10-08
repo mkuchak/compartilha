@@ -10,7 +10,7 @@ mutation {
       isActive: true
       address: {
         create: {
-          cep: "98700-000"
+          zip: "98700-000"
           state: "Rio Grande do Sul"
           city: "Ijuí"
           neighborhood: "Centro"
@@ -25,7 +25,7 @@ mutation {
     email
     address {
       _id
-      cep
+      zip
     }
   }
 }
@@ -59,7 +59,7 @@ query {
       }
       otherCause
       address {
-        cep
+        zip
         state
         city
         neighborhood
@@ -93,7 +93,7 @@ query {
       }
       otherCause
       address {
-        cep
+        zip
         state
         city
         neighborhood
@@ -112,7 +112,7 @@ query {
       }
     }
     address {
-      cep
+      zip
       state
       city
       neighborhood
@@ -130,7 +130,7 @@ mutation {
       inscription: "1234567909"
       address: {
         create: {
-          cep: "98700-000"
+          zip: "98700-000"
           state: "Rio Grande do Sul"
           city: "Ijuí"
           neighborhood: "Centro"

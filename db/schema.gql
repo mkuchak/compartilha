@@ -34,7 +34,7 @@ type Institution {
 }
 
 type Address {
-  cep: String!
+  zip: String!
   state: String!
   city: String!
   neighborhood: String!

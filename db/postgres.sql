@@ -32,7 +32,7 @@ CREATE TABLE "institution" (
 
 CREATE TABLE "address" (
   "id" int PRIMARY KEY,
-  "cep" varchar NOT NULL,
+  "zip" varchar NOT NULL,
   "state" varchar NOT NULL,
   "city" varchar NOT NULL,
   "neighborhood" varchar NOT NULL,
