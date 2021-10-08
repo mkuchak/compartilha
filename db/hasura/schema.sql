@@ -1,3 +1,5 @@
+-- Postgres Schema
+
 CREATE TABLE "user" (
   "id" int PRIMARY KEY,
   "email" varchar UNIQUE NOT NULL,
@@ -12,8 +14,8 @@ CREATE TABLE "user" (
   "is_admin" boolean NOT NULL DEFAULT false,
   "is_super_admin" boolean NOT NULL DEFAULT false,
   "is_active" boolean NOT NULL DEFAULT true,
-  "address_id" int,
-  "institution_id" int,
+  "address_id" int UNIQUE,
+  "institution_id" int UNIQUE,
   "associated_id" int
 );
 
@@ -27,7 +29,7 @@ CREATE TABLE "institution" (
   "foundation_date" timestamp,
   "is_active" boolean NOT NULL DEFAULT true,
   "other_cause" varchar,
-  "address_id" int
+  "address_id" int UNIQUE
 );
 
 CREATE TABLE "address" (
@@ -70,12 +72,20 @@ CREATE TABLE "item_institution" (
   "institution_id" int NOT NULL
 );
 
-ALTER TABLE "user" ADD FOREIGN KEY ("address_id") REFERENCES "address" ("id");
-ALTER TABLE "institution" ADD FOREIGN KEY ("address_id") REFERENCES "address" ("id");
-ALTER TABLE "user" ADD FOREIGN KEY ("institution_id") REFERENCES "institution" ("id");
+ALTER TABLE "address" ADD FOREIGN KEY ("id") REFERENCES "user" ("address_id");
+
+ALTER TABLE "institution" ADD FOREIGN KEY ("id") REFERENCES "user" ("institution_id");
+
 ALTER TABLE "user" ADD FOREIGN KEY ("associated_id") REFERENCES "institution" ("id");
-ALTER TABLE "cause_institution" ADD FOREIGN KEY ("institution_id") REFERENCES "institution" ("id");
+
+ALTER TABLE "address" ADD FOREIGN KEY ("id") REFERENCES "institution" ("address_id");
+
 ALTER TABLE "cause_institution" ADD FOREIGN KEY ("cause_id") REFERENCES "cause" ("id");
+
+ALTER TABLE "cause_institution" ADD FOREIGN KEY ("institution_id") REFERENCES "institution" ("id");
+
 ALTER TABLE "item" ADD FOREIGN KEY ("category_id") REFERENCES "category" ("id");
-ALTER TABLE "item_institution" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");
+
 ALTER TABLE "item_institution" ADD FOREIGN KEY ("institution_id") REFERENCES "institution" ("id");
+
+ALTER TABLE "item_institution" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("id");

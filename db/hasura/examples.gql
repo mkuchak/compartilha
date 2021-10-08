@@ -1,0 +1,29 @@
+mutation MyMutation {
+  insert_user_one(
+    object: {
+      email: ""
+      phone: ""
+      password: ""
+      first_name: ""
+      last_name: ""
+      is_admin: false
+      is_super_admin: false
+      address: {
+        data: {
+          zip: ""
+          state: ""
+          city: ""
+          neighborhood: ""
+          street: ""
+          number: ""
+          complement: ""
+        }
+      }
+    }
+  ) {
+    id
+    address {
+      id
+    }
+  }
+}
