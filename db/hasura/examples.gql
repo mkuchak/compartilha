@@ -57,3 +57,31 @@ mutation CreateUser($object: user_insert_input!) {
 #       }
 #     }
 # }
+
+mutation CreateCauses {
+  insert_cause(
+    objects: [
+      { name: "Combate ao abuso infantil e apoio às vítimas" }
+      { name: "Educação de crianças e jovens" }
+      { name: "Crianças desaparecidas" }
+      { name: "Crianças com deficiência" }
+      { name: "Apoio a crianças com câncer" }
+      { name: "Apoio a mulheres vítimas de violência" }
+      { name: "Empoderamento feminino" }
+      { name: "Combate à desigualdade racial" }
+      { name: "Apoio a pessoas em situação de rua" }
+      { name: "Apoio a adultos com câncer" }
+      { name: "Combate à pobreza" }
+      { name: "Inclusão de pessoas com deficiência" }
+      { name: "Apoio a dependentes químicos" }
+      { name: "Defesa dos direitos indígenas" }
+      { name: "Preservação do meio ambiente" }
+      { name: "Ajuda a animais abandonados" }
+    ]
+  ) {
+    returning {
+      id
+      name
+    }
+  }
+}
