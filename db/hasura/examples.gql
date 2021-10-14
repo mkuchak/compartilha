@@ -27,37 +27,6 @@ mutation CreateUser {
   }
 }
 
-mutation CreateUser($object: user_insert_input!) {
-  insert_user_one(object: $object) {
-    id
-    email
-    address {
-      id
-      zip
-    }
-  }
-}
-
-# {
-#   "object": {
-#       "email": "johndoe@gmail.com",
-#       "password": "123",
-#       "first_name": "John",
-#       "last_name": "Doe",
-#       "address": {
-#         "data": {
-#           "zip": "98700-000",
-#           "state": "Rio Grande do Sul",
-#           "city": "Ijuí",
-#           "neighborhood": "Centro",
-#           "street": "Rua José Bonifácio",
-#           "number": 987,
-#           "complement": "Casa"
-#         }
-#       }
-#     }
-# }
-
 mutation CreateCauses {
   insert_cause(
     objects: [
@@ -83,5 +52,48 @@ mutation CreateCauses {
       id
       name
     }
+  }
+}
+
+# ==================== HASURA ACTION EXAMPLE ====================
+
+# Mutation with a single user object to derive an action
+mutation CreateUser($object: user_insert_input!) {
+  insert_user_one(object: $object) {
+    id
+    email
+    address {
+      id
+      zip
+    }
+  }
+}
+
+# User data object to send as parameter
+# {
+#   "object": {
+#       "email": "johndoe@gmail.com",
+#       "password": "123",
+#       "first_name": "John",
+#       "last_name": "Doe",
+#       "address": {
+#         "data": {
+#           "zip": "98700-000",
+#           "state": "Rio Grande do Sul",
+#           "city": "Ijuí",
+#           "neighborhood": "Centro",
+#           "street": "Rua José Bonifácio",
+#           "number": 987,
+#           "complement": "Casa"
+#         }
+#       }
+#     }
+# }
+
+# Action after be created in Hasura panel
+mutation CreateUser($object: CreateUserUserInsertInput!) {
+  CreateUser(object: $object) {
+    id
+    email
   }
 }
