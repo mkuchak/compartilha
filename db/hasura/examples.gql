@@ -2,9 +2,9 @@ mutation CreateUser {
   insert_user_one(
     object: {
       email: "johndoe@gmail.com"
-      password: "123"
       first_name: "John"
       last_name: "Doe"
+      is_active: true
       address: {
         data: {
           zip: "98700-000"
@@ -501,9 +501,9 @@ mutation CreateUser($object: user_insert_input!) {
 # {
 #   "object": {
 #       "email": "johndoe@gmail.com",
-#       "password": "123",
 #       "first_name": "John",
 #       "last_name": "Doe",
+#       "is_active": true,
 #       "address": {
 #         "data": {
 #           "zip": "98700-000",
