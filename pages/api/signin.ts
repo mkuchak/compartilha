@@ -6,5 +6,9 @@ type Data = {
 };
 
 export default (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  res.status(200).json(req.body);
+  console.log(req.body.input.object); // example to how to receive data from the client
+  res.status(200).json({ // model to send data to the client
+    email: "johndoe@gmail.com",
+    id: 1,
+  });
 };
