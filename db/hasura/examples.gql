@@ -55,6 +55,434 @@ mutation CreateCauses {
   }
 }
 
+mutation CreateCategiry {
+  insert_category(
+    objects: [
+      { name: "Alimentos" }
+      { name: "Higiene e Limpeza" }
+      { name: "Agasalhos" }
+      { name: "Lazer" }
+      { name: "Saúde" }
+    ]
+  ) {
+    returning {
+      id
+      name
+    }
+  }
+}
+
+mutation CreateItem {
+  insert_item(
+    objects: [
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Arroz"
+        measure: "2kg"
+        price: 9
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Feijão"
+        measure: "1kg"
+        price: 8
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Óleo"
+        measure: "1L"
+        price: 8
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Sal"
+        measure: "1kg"
+        price: 2
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Açúcar"
+        measure: "1kg"
+        price: 5
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Café"
+        measure: "500g"
+        price: 11
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Macarrão"
+        measure: "500g"
+        price: 4
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Leite Longa Vida"
+        measure: "1L"
+        price: 4
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Leite em Pó"
+        measure: "400g"
+        price: 12
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Achocolatado"
+        measure: "400g"
+        price: 6
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Macarrão Instantâneo"
+        measure: "400g"
+        price: 4
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Extrato de Tomate"
+        measure: "540g"
+        price: 7
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Leite Condensado"
+        measure: "395g"
+        price: 5
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Sardinhas"
+        measure: "125g"
+        price: 5
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Ervilhas"
+        measure: "500g"
+        price: 5
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Milho"
+        measure: "300g"
+        price: 6
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Salsicha"
+        measure: "500g"
+        price: 10
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Farinha de Mandioca"
+        measure: "1kg"
+        price: 5
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Farinha de Milho"
+        measure: "1kg"
+        price: 6
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Farinha de Trigo"
+        measure: "1kg"
+        price: 4
+      }
+      {
+        category: {
+          data: { name: "Alimentos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Biscoitos Doces ou Salgados"
+        measure: "400g"
+        price: 5
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Sabão em Pedra"
+        measure: "1kg"
+        price: 12
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Sabão em Pó"
+        measure: "800g"
+        price: 10
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Creme Dental"
+        measure: "90g"
+        price: 4
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Sabonete"
+        measure: "150g"
+        price: 3
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Papel Higiênico"
+        measure: "60m C/4"
+        price: 5
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Shampoo"
+        measure: "325ml"
+        price: 9
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Condicionador"
+        measure: "350ml"
+        price: 12
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Absorventes Íntimos"
+        measure: "C/8"
+        price: 4
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Detergente Líquido"
+        measure: "500ml"
+        price: 2
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Amaciante de Roupas"
+        measure: "2L"
+        price: 7
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Água Sanitária"
+        measure: "2L"
+        price: 7
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Esponja de Aço"
+        measure: "C/8"
+        price: 2
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Esponja Multiuso"
+        measure: "C/4"
+        price: 4
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Caixa de Fósforo"
+        measure: "C/240"
+        price: 6
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Isqueiro"
+        measure: ""
+        price: 6
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Álcool em Gel"
+        measure: "480g"
+        price: 8
+      }
+      {
+        category: {
+          data: { name: "Higiene e Limpeza" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Fraldas"
+        measure: "C/18"
+        price: 21
+      }
+      {
+        category: {
+          data: { name: "Agasalhos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Casaco ou Moletom"
+        measure: ""
+        price: 60
+      }
+      {
+        category: {
+          data: { name: "Agasalhos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Calça ou Bermuda"
+        measure: ""
+        price: 40
+      }
+      {
+        category: {
+          data: { name: "Agasalhos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Sapato ou Tênis"
+        measure: ""
+        price: 60
+      }
+      {
+        category: {
+          data: { name: "Agasalhos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Cobertor ou Acolchoado"
+        measure: ""
+        price: 60
+      }
+      {
+        category: {
+          data: { name: "Agasalhos" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Colchão"
+        measure: "Solteiro"
+        price: 200
+      }
+      {
+        category: {
+          data: { name: "Lazer" }
+          on_conflict: { constraint: category_name_key, update_columns: name }
+        }
+        name: "Brinquedo"
+        measure: ""
+        price: 20
+      }
+    ]
+  ) {
+    returning {
+      id
+      name
+      measure
+      price
+      category_id
+    }
+  }
+}
+
 # ==================== HASURA ACTION EXAMPLE ====================
 
 # Mutation with a single user object to derive an action
