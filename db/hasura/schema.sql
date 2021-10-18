@@ -13,7 +13,7 @@ CREATE TABLE "user" (
   "code_expires_at" timestamp NOT NULL DEFAULT NOW(),
   "longitude" varchar,
   "latitude" varchar,
-  "is_active" boolean NOT NULL DEFAULT false,
+  "is_active" boolean NOT NULL DEFAULT true,
   "address_id" int UNIQUE,
   "associated_id" int
 );
