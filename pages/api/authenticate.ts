@@ -75,8 +75,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     })
   }
 
-  // check if user code tries is less than 20
-  const isMaxAttempts = user.code_tries >= 20
+  // check if user code tries is less than 10
+  const isMaxAttempts = user.code_tries >= 10
 
   if (isMaxAttempts) {
     return res.status(400).json({
