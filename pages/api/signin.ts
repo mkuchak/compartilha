@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
 import gql from "@/utils/gql-request";
-import sgMail from "@/utils/sendgrid";
+import sgMail from "@/utils/sendgrid-mail";
 import validateEmail from "@/utils/validate-email";
 import getRandomInt from "@/utils/random-integer";
 
