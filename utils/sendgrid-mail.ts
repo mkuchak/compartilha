@@ -12,7 +12,7 @@ const sendGridMail = async ({
   template_id: string;
   dynamic_template_data: {};
 }) => {
-  const email = await fetch("https://api.sendgrid.com/v3/mail/send", {
+  const email = await fetch('https://api.sendgrid.com/v3/mail/send', {
     body: JSON.stringify({
       from: {
         email: from, // add your email here
@@ -33,11 +33,11 @@ const sendGridMail = async ({
     }),
     headers: {
       Authorization: `Bearer ${process.env.SENDGRID_API_KEY}`,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    method: "POST",
-  });
-  return email;
-};
+    method: 'POST',
+  })
+  return email
+}
 
-export default sendGridMail;
+export default sendGridMail

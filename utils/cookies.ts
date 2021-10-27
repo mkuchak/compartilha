@@ -1,5 +1,5 @@
-import { serialize, CookieSerializeOptions } from "cookie";
-import { NextApiResponse } from "next";
+import { serialize, CookieSerializeOptions } from 'cookie'
+import { NextApiResponse } from 'next'
 
 // This sets cookie using the res object
 const setCookie = (
@@ -9,14 +9,14 @@ const setCookie = (
   options: CookieSerializeOptions = {}
 ) => {
   const stringValue =
-    typeof value === "object" ? "j:" + JSON.stringify(value) : String(value);
+    typeof value === 'object' ? 'j:' + JSON.stringify(value) : String(value)
 
-  if ("maxAge" in options) {
-    options.expires = new Date(Date.now() + options.maxAge!);
-    options.maxAge! /= 1000;
+  if ('maxAge' in options) {
+    options.expires = new Date(Date.now() + options.maxAge!)
+    options.maxAge! /= 1000
   }
 
-  res.setHeader("Set-Cookie", serialize(name, stringValue, options));
-};
+  res.setHeader('Set-Cookie', serialize(name, stringValue, options))
+}
 
-export default setCookie;
+export default setCookie
