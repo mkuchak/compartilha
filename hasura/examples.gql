@@ -545,7 +545,7 @@ type SignInOutput {
 # {{ACTION_BASE_URL}}/signin
 
 # To consult
-query ($email: String!) {
+mutation ($email: String!) {
   SignIn(email: $email) {
     status
     message
@@ -581,7 +581,7 @@ type AuthenticateOutput {
 # ✔️ Forward client headers to webhook
 
 # To consult
-query ($credentials: CredentialsInput!) {
+mutation ($credentials: CredentialsInput!) {
   Authenticate(credentials: $credentials) {
     token
     status
@@ -595,3 +595,57 @@ query ($credentials: CredentialsInput!) {
 # 		"code": "123456"
 # 	}
 # }
+
+# REFRESH TOKEN
+# Action definition
+type Mutation {
+  RefreshToken(refreshToken: String): RefreshTokenOutput
+}
+
+# New types definition
+type RefreshTokenOutput {
+  token: [jsonb!]
+  status: String!
+  message: String!
+}
+
+# Handler
+# {{ACTION_BASE_URL}}/refreshtoken
+
+# Headers
+# ✔️ Forward client headers to webhook
+
+# To consult
+mutation ($refreshToken: String) {
+  RefreshToken(refreshToken: $refreshToken) {
+    token
+    status
+    message
+  }
+}
+
+# SIGN OUT
+# Action definition
+type Mutation {
+  SignOut(refreshToken: String): SignOutOutput
+}
+
+# New types definition
+type SignOutOutput {
+  status: String!
+  message: String!
+}
+
+# Handler
+# {{ACTION_BASE_URL}}/signout
+
+# Headers
+# ✔️ Forward client headers to webhook
+
+# To consult
+mutation ($refreshToken: String) {
+  SignOut(refreshToken: $refreshToken) {
+    status
+    message
+  }
+}
