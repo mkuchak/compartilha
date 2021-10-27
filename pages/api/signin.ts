@@ -130,7 +130,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     from: "Compartilha.org <oi@compartilha.org>",
     to: email,
     subject: "Olá! Este é o seu código para entrar em Compartilha.org",
-    template_id: process.env.SENDGRID_SIGNIN_TEMPLATE_ID,
+    template_id: process.env.SENDGRID_SIGNIN_TEMPLATE_ID!,
     dynamic_template_data: {
       auth_code: code,
       auth_page: `https://compartilha.org/signin?email=${email}`,
