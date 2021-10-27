@@ -131,7 +131,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             new Date().getTime() +
               1000 *
                 60 *
-                Number(process.env.HASURA_GRAPHQL_REFRESH_TOKEN_EXPIRES_IN)
+                parseInt(process.env.HASURA_GRAPHQL_REFRESH_TOKEN_EXPIRES_IN)
           ).toISOString(),
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
@@ -152,7 +152,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // extract jwt settings from environment variables
-  const { key, type } = JSON.parse(process.env.HASURA_GRAPHQL_JWT_SECRET!);
+  const { key, type } = JSON.parse(process.env.HASURA_GRAPHQL_JWT_SECRET);
 
   // create access token (jwt)
   const accessToken = sign(
@@ -165,16 +165,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     key,
     {
       algorithm: type,
-      expiresIn: `${Number(
-        process.env.HASURA_GRAPHQL_ACCESS_TOKEN_EXPIRES_IN
-      )}m`,
+      expiresIn: `${parseInt(process.env.HASURA_GRAPHQL_ACCESS_TOKEN_EXPIRES_IN)}m`,
     }
   );
 
   // set cookie for refresh token
   setCookie(res, "refresh_token", refreshToken, {
     maxAge:
-      Number(process.env.HASURA_GRAPHQL_REFRESH_TOKEN_EXPIRES_IN) * 60 * 1000, // convert from minute to milliseconds
+      parseInt(process.env.HASURA_GRAPHQL_REFRESH_TOKEN_EXPIRES_IN) * 60 * 1000, // convert from minute to milliseconds
     httpOnly: true,
     path: "/",
     sameSite: "strict",
