@@ -18,24 +18,10 @@ query GetUser($email: String!) {
 }
 `
 
-// generate random code and update code expiration
-const UPDATE_USER = `
-mutation UpdateUser($email: String!, $codeDataset: user_set_input!) {
-  update_user(where: {email: {_eq: $email}}, _set: $codeDataset) {
-    returning {
-      id
-      is_active
-      code_tries
-      code_expires_at
-    }
-  }
-}
-`
-
-// create new user account with a code
-const INSERT_USER = `
-mutation InsertUser($user: user_insert_input!) {
-  insert_user_one(object: $user) {
+// create or update user with code dataset to sign in
+const CREATE_UPDATE_USER = `
+mutation CreateUpdateUser($object: user_insert_input!, $on_conflict: user_on_conflict!) {
+  insert_user_one(object: $object, on_conflict: $on_conflict) {
     id
     is_active
     code_tries
@@ -61,8 +47,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // check if user exists and get user data
-  let resultOperation = await gql(GET_USER, { email })
-  let user = resultOperation.data.user[0]
+  let gqlData
+
+  try {
+    gqlData = await gql(GET_USER, { email })
+
+    // if Hasura operation contains errors, then throw error
+    if (gqlData.errors) {
+      return res.status(400).json(gqlData.errors[0])
+    }
+  } catch (e) {
+    return res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+    })
+  }
+
+  let user = gqlData.data.user[0]
 
   if (user) {
     // if user exists but isn't active, then throw error
@@ -92,37 +93,35 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // all checks passed and a code must be sent, so generate a new code
   const code = getRandomInt(100000, 999999).toString()
 
-  // create a code dataset with the encrypted code
-  const codeDataset = {
-    code: await bcrypt.hash(code, 12),
-    code_tries: 0,
-    code_expires_at: new Date(
-      new Date().getTime() + 1000 * 60 * 60 // 60 minutes expiration
-    ).toISOString(),
-  }
-
-  if (user) {
-    // update user code and renew code tries along with expiration time
-    const updateUser = {
-      email,
-      codeDataset,
-    }
-
-    resultOperation = await gql(UPDATE_USER, { ...updateUser })
-  } else {
-    // if user not exists, then insert one with code dataset
-    const newUser = {
+  // create or update user with code dataset
+  const createUpdateUser = {
+    object: {
       email,
       is_active: true,
-      ...codeDataset,
-    }
-
-    resultOperation = await gql(INSERT_USER, { user: newUser })
+      code: await bcrypt.hash(code, 12),
+      code_tries: 0,
+      code_expires_at: new Date(
+        new Date().getTime() + 1000 * 60 * 60 // 60 minutes expiration
+      ).toISOString(),
+    },
+    on_conflict: {
+      constraint: 'user_email_key',
+      update_columns: ['code', 'code_tries', 'code_expires_at'],
+    },
   }
 
-  // if Hasura operation contains errors, then throw error
-  if (resultOperation.errors) {
-    return res.status(400).json(resultOperation.errors[0])
+  try {
+    gqlData = await gql(CREATE_UPDATE_USER, createUpdateUser)
+
+    // in case of errors
+    if (gqlData.errors) {
+      return res.status(400).json(gqlData.errors[0])
+    }
+  } catch (e) {
+    return res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+    })
   }
 
   // send email to user with his validation code

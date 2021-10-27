@@ -32,8 +32,8 @@ mutation IncrementUserAttempts($email: String!) {
 `
 
 // update code settings and create refresh token
-const CREATE_REFRESH_TOKEN = `
-mutation CreateRefreshToken($object: user_insert_input!, $on_conflict: user_on_conflict!) {
+const UPDATE_USER_CREATE_REFRESH_TOKEN = `
+mutation UpdateUserCreateRefreshToken($object: user_insert_input!, $on_conflict: user_on_conflict!) {
   insert_user_one(object: $object, on_conflict: $on_conflict) {
     id
     email
@@ -55,8 +55,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email, code } = req.body.input.credentials
 
   // get user by email
-  let resultOperation = await gql(GET_USER, { email })
-  let user = resultOperation.data.user[0]
+  let gqlData
+
+  try {
+    gqlData = await gql(GET_USER, { email })
+
+    // in case of errors
+    if (gqlData.errors) {
+      return res.status(400).json(gqlData.errors[0])
+    }
+  } catch (e) {
+    return res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+    })
+  }
+
+  let user = gqlData.data.user[0]
 
   // check if user exists
   if (!user) {
@@ -104,7 +119,19 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (!isCodeValid) {
     // increment user code tries
-    await gql(INC_USER_ATTEMPTS, { email })
+    try {
+      gqlData = await gql(INC_USER_ATTEMPTS, { email })
+
+      // in case of errors
+      if (gqlData.errors) {
+        return res.status(400).json(gqlData.errors[0])
+      }
+    } catch (e) {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Internal server error',
+      })
+    }
 
     return res.status(400).json({
       status: 'error',
@@ -115,8 +142,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // all checks passed, so generate a new refresh token
   const refreshToken = uuidv4()
 
-  // reset code settings and create refresh token
-  const newRefreshToken = {
+  // reset user code settings and create refresh token
+  const updateUserCreateRefreshToken = {
     object: {
       email: email,
       code_tries: 0,
@@ -144,11 +171,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     },
   }
 
-  resultOperation = await gql(CREATE_REFRESH_TOKEN, newRefreshToken)
+  try {
+    gqlData = await gql(
+      UPDATE_USER_CREATE_REFRESH_TOKEN,
+      updateUserCreateRefreshToken
+    )
 
-  // in case of errors
-  if (resultOperation.errors) {
-    return res.status(400).json(resultOperation.errors[0])
+    // in case of errors
+    if (gqlData.errors) {
+      return res.status(400).json(gqlData.errors[0])
+    }
+  } catch (e) {
+    return res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+    })
   }
 
   // extract jwt settings from environment variables
