@@ -8,6 +8,11 @@
     "build": "next build",
     "start": "next start"
   },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cookie": "^0.4.1",
@@ -18,6 +23,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^13.2.1",
+    "@commitlint/config-conventional": "^13.2.0",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie": "^0.4.1",
     "@types/jsonwebtoken": "^8.5.5",
@@ -26,6 +33,7 @@
     "@types/uuid": "^8.3.1",
     "eslint": "7.32.0",
     "eslint-config-next": "12.0.1",
+    "husky": "^7.0.4",
     "typescript": "4.4.2"
   }
 }
