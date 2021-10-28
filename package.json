@@ -6,7 +6,8 @@
     "lint": "next lint",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "pre-commit": "next lint --fix"
   },
   "husky": {
     "hooks": {
