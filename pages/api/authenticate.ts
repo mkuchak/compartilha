@@ -1,8 +1,8 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import { sign } from 'jsonwebtoken'
+import { encrypt } from '@/utils/crypto'
 import setCookie from '@/utils/cookies'
 import gql from '@/utils/gql-request'
 
@@ -37,7 +37,7 @@ mutation UpdateUserCreateRefreshToken($object: user_insert_input!, $on_conflict:
   insert_user_one(object: $object, on_conflict: $on_conflict) {
     id
     email
-    refresh_token {
+    refresh_tokens {
       id
       refresh_token
       user_agent
@@ -76,7 +76,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // check if user exists
   if (!user) {
     // to avoid identifying an existing user, we purposely send an ambiguous message
-    return res.status(400).json({
+    return res.status(401).json({
       status: 'error',
       message: 'Incorrect code, try again',
     })
@@ -84,7 +84,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   // check if user is active
   if (!user.is_active) {
-    return res.status(400).json({
+    return res.status(401).json({
       status: 'error',
       message: 'This account is no longer active',
     })
@@ -94,7 +94,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const isMaxAttempts = user.code_tries >= 10
 
   if (isMaxAttempts) {
-    return res.status(400).json({
+    return res.status(401).json({
       status: 'error',
       message:
         'You have reached the maximum number of attempts, please request to send an email with a new code',
@@ -103,11 +103,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   // check if user code is expired
   const expirationTimer =
-    (new Date(user.code_expires_at).getTime() - new Date().getTime()) / 1000
+    new Date(user.code_expires_at).getTime() - new Date().getTime()
   const isExpired = expirationTimer < 0
 
   if (isExpired) {
-    return res.status(400).json({
+    return res.status(401).json({
       status: 'error',
       message:
         'The code has expired, please request to send an email with a new code',
@@ -133,7 +133,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       })
     }
 
-    return res.status(400).json({
+    return res.status(401).json({
       status: 'error',
       message: 'Incorrect code, try again',
     })
@@ -145,10 +145,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // reset user code settings and create refresh token
   const updateUserCreateRefreshToken = {
     object: {
-      email: email,
+      email,
       code_tries: 0,
       code_expires_at: new Date().toISOString(),
-      refresh_token: {
+      refresh_tokens: {
         data: {
           refresh_token: refreshToken,
           user_agent: req.headers['x-forwarded-user-agent'],
@@ -188,6 +188,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     })
   }
 
+  // create refresh token dataset
+  const refreshTokenDataset = encrypt(
+    JSON.stringify({
+      userId: user.id,
+      refreshToken: refreshToken,
+      expiresAt:
+        new Date().getTime() +
+        1000 *
+          60 *
+          parseInt(process.env.HASURA_GRAPHQL_REFRESH_TOKEN_EXPIRES_IN),
+    })
+  )
+
+  // set cookie for refresh token
+  setCookie(res, 'refreshToken', refreshTokenDataset, {
+    maxAge:
+      parseInt(process.env.HASURA_GRAPHQL_REFRESH_TOKEN_EXPIRES_IN) * 60 * 1000, // convert from minute to milliseconds
+    httpOnly: true,
+    path: '/',
+    sameSite: 'strict',
+    secure: process.env.APP_ENV === 'production',
+  })
+
   // extract jwt settings from environment variables
   const { key, type } = JSON.parse(process.env.HASURA_GRAPHQL_JWT_SECRET)
 
@@ -208,21 +231,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   )
 
-  // set cookie for refresh token
-  setCookie(res, 'refresh_token', refreshToken, {
-    maxAge:
-      parseInt(process.env.HASURA_GRAPHQL_REFRESH_TOKEN_EXPIRES_IN) * 60 * 1000, // convert from minute to milliseconds
-    httpOnly: true,
-    path: '/',
-    sameSite: 'strict',
-    secure: process.env.APP_ENV === 'production',
-  })
-
   // if successful, return the access token and refresh token with a success message
   return res.status(200).json({
     token: {
       accessToken,
-      refreshToken: refreshToken,
+      refreshToken: refreshTokenDataset,
     },
     status: 'success',
     message: 'You have successfully logged in',
