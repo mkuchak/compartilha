@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcrypt'
 import gql from '@/utils/gql-request'
@@ -40,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   // if email is not valid
   if (!isValidEmail) {
-    return res.status(400).json({
+    return res.status(401).json({
       status: 'error',
       message: 'Please, enter a valid email address',
     })
@@ -68,7 +67,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (user) {
     // if user exists but isn't active, then throw error
     if (!user.is_active) {
-      return res.status(400).json({
+      return res.status(401).json({
         status: 'error',
         message: 'This account is no longer active',
       })
@@ -83,7 +82,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     // if user exists and code has not reached the wait delay, then throw error
     if (needToWait) {
-      return res.status(400).json({
+      return res.status(401).json({
         status: 'error',
         message: 'Wait a few minutes before requesting the code again',
       })
@@ -143,7 +142,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       message: 'The access code has been sent to your email',
     })
   } else {
-    return res.status(400).json({
+    return res.status(500).json({
       status: 'error',
       message: 'Something went wrong, try again later',
     })
