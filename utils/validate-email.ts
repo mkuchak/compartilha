@@ -10,7 +10,11 @@ const validateEmail = async (email: string) => {
     const checkEmailResult = await checkEmail.json()
 
     // regex and external api validation
-    return regex.test(String(email).toLowerCase()) && checkEmailResult.status
+    return (
+      (regex.test(String(email).toLowerCase()) &&
+        checkEmailResult.status &&
+        !checkEmailResult.error) || regex.test(String(email).toLowerCase())
+    )
   } catch (e) {
     console.error(e)
     return regex.test(String(email).toLowerCase())
