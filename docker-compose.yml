@@ -28,8 +28,6 @@ services:
     depends_on:
     - "postgres"
     restart: always
-    environment:
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
     env_file:
       - ./.env
 volumes:
