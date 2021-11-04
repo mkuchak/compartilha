@@ -174,6 +174,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       refreshToken: newRefreshTokenDataset,
     },
     status: 'success',
-    message: 'You have successfully logged in',
+    message: 'Refresh token successfully updated',
   })
 }
