@@ -1,4 +1,4 @@
-// get random number between
+// get random number between a range
 const getRandomInt = (min: number, max: number) => {
   min = Math.ceil(min)
   max = Math.floor(max)

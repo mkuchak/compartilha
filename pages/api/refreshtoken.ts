@@ -5,6 +5,7 @@ import { encrypt, decrypt } from '@/utils/crypto'
 import setCookie from '@/utils/cookies'
 import gql from '@/utils/gql-request'
 
+// update refresh token with new valid token
 const UPDATE_REFRESH_TOKEN = `
 mutation UpdateRefreshToken($where: refresh_token_bool_exp!, $_set: refresh_token_set_input) {
   update_refresh_token(where: $where, _set: $_set) {
@@ -21,6 +22,7 @@ mutation UpdateRefreshToken($where: refresh_token_bool_exp!, $_set: refresh_toke
 }
 `
 
+// if refresh token is expired, delete it
 const DELETE_REFRESH_TOKEN = `
 mutation DeleteRefreshToken($where: refresh_token_bool_exp!) {
   delete_refresh_token(where: $where) {
