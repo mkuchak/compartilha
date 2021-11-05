@@ -7,5 +7,6 @@ declare namespace NodeJS {
     HASURA_GRAPHQL_REFRESH_TOKEN_EXPIRES_IN: string;
     SENDGRID_API_KEY: string;
     SENDGRID_SIGNIN_TEMPLATE_ID: string;
+    SENDGRID_SIGNIN_EMAIL_FROM: string;
   }
 }

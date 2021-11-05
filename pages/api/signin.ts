@@ -125,7 +125,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   // send email to user with his validation code
   const mailResult = await sgMail({
-    from: 'Compartilha.org <oi@compartilha.org>',
+    from: `Compartilha.org <${process.env.SENDGRID_SIGNIN_EMAIL_FROM}>`,
     to: email,
     subject: 'Olá! Este é o seu código para entrar em Compartilha.org',
     template_id: process.env.SENDGRID_SIGNIN_TEMPLATE_ID,
