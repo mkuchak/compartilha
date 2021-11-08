@@ -9,3 +9,15 @@ array_relationships:
       table:
         name: item
         schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - name
+    filter:
+      items:
+        item_institutions:
+          institution:
+            is_active:
+              _eq: true
+  role: guest

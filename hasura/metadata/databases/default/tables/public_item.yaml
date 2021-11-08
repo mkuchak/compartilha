@@ -13,3 +13,16 @@ array_relationships:
       table:
         name: item_institution
         schema: public
+select_permissions:
+- permission:
+    columns:
+    - id
+    - measure
+    - name
+    - price
+    filter:
+      item_institutions:
+        institution:
+          is_active:
+            _eq: true
+  role: guest
