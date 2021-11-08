@@ -1,0 +1,65 @@
+# Install REST Client extension on the VS Code to use this file
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+@hostname= http://localhost:8080
+
+###
+
+POST {{hostname}}/v1/graphql
+Content-Type: application/json
+X-Hasura-Admin-Secret: {{$dotenv HASURA_GRAPHQL_ADMIN_SECRET}}
+X-Request-Type: GraphQL
+
+mutation SignIn {
+  SignIn(email: "johndoe@gmail.com") {
+    status
+    message
+  }
+}
+
+###
+
+POST {{hostname}}/v1/graphql
+Content-Type: application/json
+X-Hasura-Admin-Secret: {{$dotenv HASURA_GRAPHQL_ADMIN_SECRET}}
+X-Request-Type: GraphQL
+
+mutation Authenticate {
+  Authenticate(credentials: {
+    email: "johndoe@gmail.com",
+    code: "123456"
+  }) {
+    token
+    status
+    message
+  }
+}
+
+###
+
+POST {{hostname}}/v1/graphql
+Content-Type: application/json
+X-Hasura-Admin-Secret: {{$dotenv HASURA_GRAPHQL_ADMIN_SECRET}}
+X-Request-Type: GraphQL
+
+mutation RefreshToken {
+  RefreshToken {
+    token
+    status
+    message
+  }
+}
+
+###
+
+POST {{hostname}}/v1/graphql
+Content-Type: application/json
+X-Hasura-Admin-Secret: {{$dotenv HASURA_GRAPHQL_ADMIN_SECRET}}
+X-Request-Type: GraphQL
+
+mutation SignOut {
+  SignOut {
+    status
+    message
+  }
+}
