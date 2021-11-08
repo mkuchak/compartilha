@@ -1,0 +1,11 @@
+table:
+  name: cause
+  schema: public
+array_relationships:
+- name: cause_institutions
+  using:
+    foreign_key_constraint_on:
+      column: cause_id
+      table:
+        name: cause_institution
+        schema: public

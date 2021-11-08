@@ -1,0 +1,10 @@
+table:
+  name: cause_institution
+  schema: public
+object_relationships:
+- name: cause
+  using:
+    foreign_key_constraint_on: cause_id
+- name: institution
+  using:
+    foreign_key_constraint_on: institution_id

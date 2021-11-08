@@ -1,0 +1,305 @@
+actions:
+- name: Authenticate
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_URL}}/api/authenticate'
+- name: RefreshToken
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_URL}}/api/refreshtoken'
+    forward_client_headers: true
+- name: SignIn
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_URL}}/api/signin'
+- name: SignOut
+  definition:
+    kind: synchronous
+    handler: '{{ACTION_BASE_URL}}/api/signout'
+    forward_client_headers: true
+custom_types:
+  enums:
+  - name: CreateUserCauseConstraint
+    values:
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: cause_name_key
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: cause_pkey
+  - name: CreateUserCauseUpdateColumn
+    values:
+    - description: column name
+      is_deprecated: null
+      value: id
+    - description: column name
+      is_deprecated: null
+      value: name
+  - name: CreateUserCauseInstitutionConstraint
+    values:
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: cause_institution_pkey
+  - name: CreateUserCauseInstitutionUpdateColumn
+    values:
+    - description: column name
+      is_deprecated: null
+      value: cause_id
+    - description: column name
+      is_deprecated: null
+      value: id
+    - description: column name
+      is_deprecated: null
+      value: institution_id
+  - name: CreateUserItemConstraint
+    values:
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: item_pkey
+  - name: CreateUserItemUpdateColumn
+    values:
+    - description: column name
+      is_deprecated: null
+      value: category_id
+    - description: column name
+      is_deprecated: null
+      value: id
+    - description: column name
+      is_deprecated: null
+      value: measure
+    - description: column name
+      is_deprecated: null
+      value: name
+    - description: column name
+      is_deprecated: null
+      value: price
+  - name: CreateUserCategoryConstraint
+    values:
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: category_name_key
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: category_pkey
+  - name: CreateUserCategoryUpdateColumn
+    values:
+    - description: column name
+      is_deprecated: null
+      value: id
+    - description: column name
+      is_deprecated: null
+      value: name
+  - name: CreateUserItemInstitutionConstraint
+    values:
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: item_institution_pkey
+  - name: CreateUserItemInstitutionUpdateColumn
+    values:
+    - description: column name
+      is_deprecated: null
+      value: id
+    - description: column name
+      is_deprecated: null
+      value: institution_id
+    - description: column name
+      is_deprecated: null
+      value: item_id
+  - name: CreateUserUserConstraint
+    values:
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: user_address_id_key
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: user_email_key
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: user_inscription_key
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: user_phone_key
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: user_pkey
+  - name: CreateUserUserUpdateColumn
+    values:
+    - description: column name
+      is_deprecated: null
+      value: address_id
+    - description: column name
+      is_deprecated: null
+      value: associated_id
+    - description: column name
+      is_deprecated: null
+      value: email
+    - description: column name
+      is_deprecated: null
+      value: first_name
+    - description: column name
+      is_deprecated: null
+      value: id
+    - description: column name
+      is_deprecated: null
+      value: inscription
+    - description: column name
+      is_deprecated: null
+      value: is_active
+    - description: column name
+      is_deprecated: null
+      value: last_ip
+    - description: column name
+      is_deprecated: null
+      value: last_login
+    - description: column name
+      is_deprecated: null
+      value: last_name
+    - description: column name
+      is_deprecated: null
+      value: latitude
+    - description: column name
+      is_deprecated: null
+      value: longitude
+    - description: column name
+      is_deprecated: null
+      value: password
+    - description: column name
+      is_deprecated: null
+      value: phone
+    - description: column name
+      is_deprecated: null
+      value: picture
+  - name: CreateUserInstitutionConstraint
+    values:
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: institution_address_id_key
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: institution_inscription_key
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: institution_pkey
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: institution_user_id_key
+  - name: CreateUserInstitutionUpdateColumn
+    values:
+    - description: column name
+      is_deprecated: null
+      value: address_id
+    - description: column name
+      is_deprecated: null
+      value: company_name
+    - description: column name
+      is_deprecated: null
+      value: description
+    - description: column name
+      is_deprecated: null
+      value: foundation_date
+    - description: column name
+      is_deprecated: null
+      value: id
+    - description: column name
+      is_deprecated: null
+      value: impacted_people
+    - description: column name
+      is_deprecated: null
+      value: inscription
+    - description: column name
+      is_deprecated: null
+      value: is_active
+    - description: column name
+      is_deprecated: null
+      value: other_cause
+    - description: column name
+      is_deprecated: null
+      value: picture
+    - description: column name
+      is_deprecated: null
+      value: pix_key
+    - description: column name
+      is_deprecated: null
+      value: trading_name
+    - description: column name
+      is_deprecated: null
+      value: user_id
+  - name: CreateUserAddressConstraint
+    values:
+    - description: unique or primary key constraint
+      is_deprecated: null
+      value: address_pkey
+  - name: CreateUserAddressUpdateColumn
+    values:
+    - description: column name
+      is_deprecated: null
+      value: city
+    - description: column name
+      is_deprecated: null
+      value: complement
+    - description: column name
+      is_deprecated: null
+      value: id
+    - description: column name
+      is_deprecated: null
+      value: neighborhood
+    - description: column name
+      is_deprecated: null
+      value: number
+    - description: column name
+      is_deprecated: null
+      value: state
+    - description: column name
+      is_deprecated: null
+      value: street
+    - description: column name
+      is_deprecated: null
+      value: zip
+  input_objects:
+  - name: CreateUserUserInsertInput
+  - name: CreateUserAddressObjRelInsertInput
+  - name: CreateUserAddressInsertInput
+  - name: CreateUserInstitutionObjRelInsertInput
+  - name: CreateUserInstitutionInsertInput
+  - name: CreateUserCauseInstitutionArrRelInsertInput
+  - name: CreateUserCauseInstitutionInsertInput
+  - name: CreateUserCauseObjRelInsertInput
+  - name: CreateUserCauseInsertInput
+  - name: CreateUserCauseOnConflict
+  - name: CreateUserCauseBoolExp
+  - name: CreateUserCauseInstitutionBoolExp
+  - name: CreateUserIntComparisonExp
+  - name: CreateUserInstitutionBoolExp
+  - name: CreateUserAddressBoolExp
+  - name: CreateUserStringComparisonExp
+  - name: CreateUserUserBoolExp
+  - name: CreateUserBooleanComparisonExp
+  - name: CreateUserTimestampComparisonExp
+  - name: CreateUserItemInstitutionBoolExp
+  - name: CreateUserItemBoolExp
+  - name: CreateUserCategoryBoolExp
+  - name: CreateUserFloat8ComparisonExp
+  - name: CreateUserCauseInstitutionOnConflict
+  - name: CreateUserItemInstitutionArrRelInsertInput
+  - name: CreateUserItemInstitutionInsertInput
+  - name: CreateUserItemObjRelInsertInput
+  - name: CreateUserItemInsertInput
+  - name: CreateUserCategoryObjRelInsertInput
+  - name: CreateUserCategoryInsertInput
+  - name: CreateUserItemArrRelInsertInput
+  - name: CreateUserItemOnConflict
+  - name: CreateUserCategoryOnConflict
+  - name: CreateUserItemInstitutionOnConflict
+  - name: CreateUserUserObjRelInsertInput
+  - name: CreateUserUserOnConflict
+  - name: CreateUserUserArrRelInsertInput
+  - name: CreateUserInstitutionOnConflict
+  - name: CreateUserAddressOnConflict
+  - name: CredentialsInput
+  objects:
+  - name: CreateUserOutput
+  - name: SignInOutput
+  - name: AuthenticateOutput
+  - name: RefreshTokenOutput
+  - name: SignOutOutput
+  scalars: []

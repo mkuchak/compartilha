@@ -1,35 +1,53 @@
-version: "3.6"
+version: "3.7"
 services:
   app:
-    container_name: app
+    container_name: compartilha-app
     build: .
     ports:
       - "3000:3000"
     volumes:
-      - .:/home/app
-      - /home/app/node_modules
+      - .:/home/node/app
+      - /home/node/app/node_modules
     restart: always
     command: npm run dev
     env_file:
       - ./.env
   postgres:
-    container_name: postgres
+    container_name: compartilha-postgres
     image: postgres:12
     restart: always
     volumes:
-    - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
     env_file:
       - ./.env
   graphql-engine:
-    container_name: hasura
+    container_name: compartilha-hasura
     image: hasura/graphql-engine:v2.0.9
     ports:
-    - "8080:8080"
+      - "8080:8080"
     depends_on:
-    - "postgres"
+      - "postgres"
     restart: always
+    env_file:
+      - ./.env
+  hasura-console:
+    container_name: compartilha-console
+    build:
+      context: ./hasura
+    ports:
+      - "9693:9693"
+      - "9695:9695"
+    volumes:
+      - ./hasura/metadata:/usr/src/hasura/metadata
+      - ./hasura/migrations:/usr/src/hasura/migrations
+      - ./hasura/seeds:/usr/src/hasura/seeds
+    depends_on:
+      - "graphql-engine"
+    restart: always
+    environment:
+      HASURA_RUN_CONSOLE: "true"
+      HASURA_GRAPHQL_ENDPOINT: http://localhost:8080
     env_file:
       - ./.env
 volumes:
   db_data:
-

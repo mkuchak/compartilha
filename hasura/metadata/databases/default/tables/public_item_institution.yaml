@@ -1,0 +1,10 @@
+table:
+  name: item_institution
+  schema: public
+object_relationships:
+- name: institution
+  using:
+    foreign_key_constraint_on: institution_id
+- name: item
+  using:
+    foreign_key_constraint_on: item_id
