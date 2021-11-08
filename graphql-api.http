@@ -7,7 +7,6 @@
 
 POST {{hostname}}/v1/graphql
 Content-Type: application/json
-X-Hasura-Admin-Secret: {{$dotenv HASURA_GRAPHQL_ADMIN_SECRET}}
 X-Request-Type: GraphQL
 
 mutation SignIn {
@@ -21,7 +20,6 @@ mutation SignIn {
 
 POST {{hostname}}/v1/graphql
 Content-Type: application/json
-X-Hasura-Admin-Secret: {{$dotenv HASURA_GRAPHQL_ADMIN_SECRET}}
 X-Request-Type: GraphQL
 
 mutation Authenticate {
@@ -39,7 +37,6 @@ mutation Authenticate {
 
 POST {{hostname}}/v1/graphql
 Content-Type: application/json
-X-Hasura-Admin-Secret: {{$dotenv HASURA_GRAPHQL_ADMIN_SECRET}}
 X-Request-Type: GraphQL
 
 mutation RefreshToken {
@@ -54,7 +51,6 @@ mutation RefreshToken {
 
 POST {{hostname}}/v1/graphql
 Content-Type: application/json
-X-Hasura-Admin-Secret: {{$dotenv HASURA_GRAPHQL_ADMIN_SECRET}}
 X-Request-Type: GraphQL
 
 mutation SignOut {

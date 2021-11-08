@@ -218,8 +218,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const accessToken = sign(
     {
       'https://hasura.io/jwt/claims': {
-        'x-hasura-allowed-roles': ['admin'],
-        'x-hasura-default-role': 'admin',
+        'x-hasura-allowed-roles': ['user'],
+        'x-hasura-default-role': 'user',
+        'x-hasura-user-id': `${user.id}`,
       },
     },
     key,
