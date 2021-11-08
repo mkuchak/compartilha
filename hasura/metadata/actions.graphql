@@ -1,0 +1,542 @@
+type Mutation {
+  Authenticate(
+    credentials: CredentialsInput!
+  ): AuthenticateOutput
+}
+
+type Mutation {
+  RefreshToken(
+    refreshToken: String
+  ): RefreshTokenOutput
+}
+
+type Mutation {
+  SignIn(
+    email: String!
+  ): SignInOutput
+}
+
+type Mutation {
+  SignOut(
+    refreshToken: String
+  ): SignOutOutput
+}
+
+enum CreateUserCauseConstraint {
+  """ unique or primary key constraint """ cause_name_key
+  """ unique or primary key constraint """ cause_pkey
+}
+
+enum CreateUserCauseUpdateColumn {
+  """ column name """ id
+  """ column name """ name
+}
+
+enum CreateUserCauseInstitutionConstraint {
+  """ unique or primary key constraint """ cause_institution_pkey
+}
+
+enum CreateUserCauseInstitutionUpdateColumn {
+  """ column name """ cause_id
+  """ column name """ id
+  """ column name """ institution_id
+}
+
+enum CreateUserItemConstraint {
+  """ unique or primary key constraint """ item_pkey
+}
+
+enum CreateUserItemUpdateColumn {
+  """ column name """ category_id
+  """ column name """ id
+  """ column name """ measure
+  """ column name """ name
+  """ column name """ price
+}
+
+enum CreateUserCategoryConstraint {
+  """ unique or primary key constraint """ category_name_key
+  """ unique or primary key constraint """ category_pkey
+}
+
+enum CreateUserCategoryUpdateColumn {
+  """ column name """ id
+  """ column name """ name
+}
+
+enum CreateUserItemInstitutionConstraint {
+  """ unique or primary key constraint """ item_institution_pkey
+}
+
+enum CreateUserItemInstitutionUpdateColumn {
+  """ column name """ id
+  """ column name """ institution_id
+  """ column name """ item_id
+}
+
+enum CreateUserUserConstraint {
+  """ unique or primary key constraint """ user_address_id_key
+  """ unique or primary key constraint """ user_email_key
+  """ unique or primary key constraint """ user_inscription_key
+  """ unique or primary key constraint """ user_phone_key
+  """ unique or primary key constraint """ user_pkey
+}
+
+enum CreateUserUserUpdateColumn {
+  """ column name """ address_id
+  """ column name """ associated_id
+  """ column name """ email
+  """ column name """ first_name
+  """ column name """ id
+  """ column name """ inscription
+  """ column name """ is_active
+  """ column name """ last_ip
+  """ column name """ last_login
+  """ column name """ last_name
+  """ column name """ latitude
+  """ column name """ longitude
+  """ column name """ password
+  """ column name """ phone
+  """ column name """ picture
+}
+
+enum CreateUserInstitutionConstraint {
+  """ unique or primary key constraint """ institution_address_id_key
+  """ unique or primary key constraint """ institution_inscription_key
+  """ unique or primary key constraint """ institution_pkey
+  """ unique or primary key constraint """ institution_user_id_key
+}
+
+enum CreateUserInstitutionUpdateColumn {
+  """ column name """ address_id
+  """ column name """ company_name
+  """ column name """ description
+  """ column name """ foundation_date
+  """ column name """ id
+  """ column name """ impacted_people
+  """ column name """ inscription
+  """ column name """ is_active
+  """ column name """ other_cause
+  """ column name """ picture
+  """ column name """ pix_key
+  """ column name """ trading_name
+  """ column name """ user_id
+}
+
+enum CreateUserAddressConstraint {
+  """ unique or primary key constraint """ address_pkey
+}
+
+enum CreateUserAddressUpdateColumn {
+  """ column name """ city
+  """ column name """ complement
+  """ column name """ id
+  """ column name """ neighborhood
+  """ column name """ number
+  """ column name """ state
+  """ column name """ street
+  """ column name """ zip
+}
+
+input CreateUserUserInsertInput {
+  address: CreateUserAddressObjRelInsertInput
+  address_id: Int
+  associated_id: Int
+  email: String
+  first_name: String
+  inscription: String
+  institution: CreateUserInstitutionObjRelInsertInput
+  institutionById: CreateUserInstitutionObjRelInsertInput
+  is_active: Boolean
+  last_ip: String
+  last_login: timestamp
+  last_name: String
+  latitude: String
+  longitude: String
+  password: String
+  phone: String
+  picture: String
+}
+
+input CreateUserAddressObjRelInsertInput {
+  data: CreateUserAddressInsertInput!
+  on_conflict: CreateUserAddressOnConflict
+}
+
+input CreateUserAddressInsertInput {
+  city: String
+  complement: String
+  institution: CreateUserInstitutionObjRelInsertInput
+  neighborhood: String
+  number: Int
+  state: String
+  street: String
+  user: CreateUserUserObjRelInsertInput
+  zip: String
+}
+
+input CreateUserInstitutionObjRelInsertInput {
+  data: CreateUserInstitutionInsertInput!
+  on_conflict: CreateUserInstitutionOnConflict
+}
+
+input CreateUserInstitutionInsertInput {
+  address: CreateUserAddressObjRelInsertInput
+  address_id: Int
+  cause_institutions: CreateUserCauseInstitutionArrRelInsertInput
+  company_name: String
+  description: String
+  foundation_date: timestamp
+  impacted_people: Int
+  inscription: String
+  is_active: Boolean
+  item_institutions: CreateUserItemInstitutionArrRelInsertInput
+  other_cause: String
+  picture: String
+  pix_key: String
+  trading_name: String
+  user: CreateUserUserObjRelInsertInput
+  user_id: Int
+  users: CreateUserUserArrRelInsertInput
+}
+
+input CreateUserCauseInstitutionArrRelInsertInput {
+  data: [CreateUserCauseInstitutionInsertInput!]!
+  on_conflict: CreateUserCauseInstitutionOnConflict
+}
+
+input CreateUserCauseInstitutionInsertInput {
+  cause: CreateUserCauseObjRelInsertInput
+  cause_id: Int
+  institution: CreateUserInstitutionObjRelInsertInput
+  institution_id: Int
+}
+
+input CreateUserCauseObjRelInsertInput {
+  data: CreateUserCauseInsertInput!
+  on_conflict: CreateUserCauseOnConflict
+}
+
+input CreateUserCauseInsertInput {
+  cause_institutions: CreateUserCauseInstitutionArrRelInsertInput
+  name: String
+}
+
+input CreateUserCauseOnConflict {
+  constraint: CreateUserCauseConstraint!
+  update_columns: [CreateUserCauseUpdateColumn!]!
+  where: CreateUserCauseBoolExp
+}
+
+input CreateUserCauseBoolExp {
+  _and: [CreateUserCauseBoolExp!]
+  _not: CreateUserCauseBoolExp
+  _or: [CreateUserCauseBoolExp!]
+  cause_institutions: CreateUserCauseInstitutionBoolExp
+  id: CreateUserIntComparisonExp
+  name: CreateUserStringComparisonExp
+}
+
+input CreateUserCauseInstitutionBoolExp {
+  _and: [CreateUserCauseInstitutionBoolExp!]
+  _not: CreateUserCauseInstitutionBoolExp
+  _or: [CreateUserCauseInstitutionBoolExp!]
+  cause: CreateUserCauseBoolExp
+  cause_id: CreateUserIntComparisonExp
+  id: CreateUserIntComparisonExp
+  institution: CreateUserInstitutionBoolExp
+  institution_id: CreateUserIntComparisonExp
+}
+
+input CreateUserIntComparisonExp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+input CreateUserInstitutionBoolExp {
+  _and: [CreateUserInstitutionBoolExp!]
+  _not: CreateUserInstitutionBoolExp
+  _or: [CreateUserInstitutionBoolExp!]
+  address: CreateUserAddressBoolExp
+  address_id: CreateUserIntComparisonExp
+  cause_institutions: CreateUserCauseInstitutionBoolExp
+  company_name: CreateUserStringComparisonExp
+  description: CreateUserStringComparisonExp
+  foundation_date: CreateUserTimestampComparisonExp
+  id: CreateUserIntComparisonExp
+  impacted_people: CreateUserIntComparisonExp
+  inscription: CreateUserStringComparisonExp
+  is_active: CreateUserBooleanComparisonExp
+  item_institutions: CreateUserItemInstitutionBoolExp
+  other_cause: CreateUserStringComparisonExp
+  picture: CreateUserStringComparisonExp
+  pix_key: CreateUserStringComparisonExp
+  trading_name: CreateUserStringComparisonExp
+  user: CreateUserUserBoolExp
+  user_id: CreateUserIntComparisonExp
+  users: CreateUserUserBoolExp
+}
+
+input CreateUserAddressBoolExp {
+  _and: [CreateUserAddressBoolExp!]
+  _not: CreateUserAddressBoolExp
+  _or: [CreateUserAddressBoolExp!]
+  city: CreateUserStringComparisonExp
+  complement: CreateUserStringComparisonExp
+  id: CreateUserIntComparisonExp
+  institution: CreateUserInstitutionBoolExp
+  neighborhood: CreateUserStringComparisonExp
+  number: CreateUserIntComparisonExp
+  state: CreateUserStringComparisonExp
+  street: CreateUserStringComparisonExp
+  user: CreateUserUserBoolExp
+  zip: CreateUserStringComparisonExp
+}
+
+input CreateUserStringComparisonExp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _iregex: String
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _niregex: String
+  _nlike: String
+  _nregex: String
+  _nsimilar: String
+  _regex: String
+  _similar: String
+}
+
+input CreateUserUserBoolExp {
+  _and: [CreateUserUserBoolExp!]
+  _not: CreateUserUserBoolExp
+  _or: [CreateUserUserBoolExp!]
+  address: CreateUserAddressBoolExp
+  address_id: CreateUserIntComparisonExp
+  associated_id: CreateUserIntComparisonExp
+  email: CreateUserStringComparisonExp
+  first_name: CreateUserStringComparisonExp
+  id: CreateUserIntComparisonExp
+  inscription: CreateUserStringComparisonExp
+  institution: CreateUserInstitutionBoolExp
+  institutionById: CreateUserInstitutionBoolExp
+  is_active: CreateUserBooleanComparisonExp
+  last_ip: CreateUserStringComparisonExp
+  last_login: CreateUserTimestampComparisonExp
+  last_name: CreateUserStringComparisonExp
+  latitude: CreateUserStringComparisonExp
+  longitude: CreateUserStringComparisonExp
+  password: CreateUserStringComparisonExp
+  phone: CreateUserStringComparisonExp
+  picture: CreateUserStringComparisonExp
+}
+
+input CreateUserBooleanComparisonExp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+input CreateUserTimestampComparisonExp {
+  _eq: timestamp
+  _gt: timestamp
+  _gte: timestamp
+  _in: [timestamp!]
+  _is_null: Boolean
+  _lt: timestamp
+  _lte: timestamp
+  _neq: timestamp
+  _nin: [timestamp!]
+}
+
+input CreateUserItemInstitutionBoolExp {
+  _and: [CreateUserItemInstitutionBoolExp!]
+  _not: CreateUserItemInstitutionBoolExp
+  _or: [CreateUserItemInstitutionBoolExp!]
+  id: CreateUserIntComparisonExp
+  institution: CreateUserInstitutionBoolExp
+  institution_id: CreateUserIntComparisonExp
+  item: CreateUserItemBoolExp
+  item_id: CreateUserIntComparisonExp
+}
+
+input CreateUserItemBoolExp {
+  _and: [CreateUserItemBoolExp!]
+  _not: CreateUserItemBoolExp
+  _or: [CreateUserItemBoolExp!]
+  category: CreateUserCategoryBoolExp
+  category_id: CreateUserIntComparisonExp
+  id: CreateUserIntComparisonExp
+  item_institutions: CreateUserItemInstitutionBoolExp
+  measure: CreateUserStringComparisonExp
+  name: CreateUserStringComparisonExp
+  price: CreateUserFloat8ComparisonExp
+}
+
+input CreateUserCategoryBoolExp {
+  _and: [CreateUserCategoryBoolExp!]
+  _not: CreateUserCategoryBoolExp
+  _or: [CreateUserCategoryBoolExp!]
+  id: CreateUserIntComparisonExp
+  items: CreateUserItemBoolExp
+  name: CreateUserStringComparisonExp
+}
+
+input CreateUserFloat8ComparisonExp {
+  _eq: float8
+  _gt: float8
+  _gte: float8
+  _in: [float8!]
+  _is_null: Boolean
+  _lt: float8
+  _lte: float8
+  _neq: float8
+  _nin: [float8!]
+}
+
+input CreateUserCauseInstitutionOnConflict {
+  constraint: CreateUserCauseInstitutionConstraint!
+  update_columns: [CreateUserCauseInstitutionUpdateColumn!]!
+  where: CreateUserCauseInstitutionBoolExp
+}
+
+input CreateUserItemInstitutionArrRelInsertInput {
+  data: [CreateUserItemInstitutionInsertInput!]!
+  on_conflict: CreateUserItemInstitutionOnConflict
+}
+
+input CreateUserItemInstitutionInsertInput {
+  institution: CreateUserInstitutionObjRelInsertInput
+  institution_id: Int
+  item: CreateUserItemObjRelInsertInput
+  item_id: Int
+}
+
+input CreateUserItemObjRelInsertInput {
+  data: CreateUserItemInsertInput!
+  on_conflict: CreateUserItemOnConflict
+}
+
+input CreateUserItemInsertInput {
+  category: CreateUserCategoryObjRelInsertInput
+  category_id: Int
+  item_institutions: CreateUserItemInstitutionArrRelInsertInput
+  measure: String
+  name: String
+  price: float8
+}
+
+input CreateUserCategoryObjRelInsertInput {
+  data: CreateUserCategoryInsertInput!
+  on_conflict: CreateUserCategoryOnConflict
+}
+
+input CreateUserCategoryInsertInput {
+  items: CreateUserItemArrRelInsertInput
+  name: String
+}
+
+input CreateUserItemArrRelInsertInput {
+  data: [CreateUserItemInsertInput!]!
+  on_conflict: CreateUserItemOnConflict
+}
+
+input CreateUserItemOnConflict {
+  constraint: CreateUserItemConstraint!
+  update_columns: [CreateUserItemUpdateColumn!]!
+  where: CreateUserItemBoolExp
+}
+
+input CreateUserCategoryOnConflict {
+  constraint: CreateUserCategoryConstraint!
+  update_columns: [CreateUserCategoryUpdateColumn!]!
+  where: CreateUserCategoryBoolExp
+}
+
+input CreateUserItemInstitutionOnConflict {
+  constraint: CreateUserItemInstitutionConstraint!
+  update_columns: [CreateUserItemInstitutionUpdateColumn!]!
+  where: CreateUserItemInstitutionBoolExp
+}
+
+input CreateUserUserObjRelInsertInput {
+  data: CreateUserUserInsertInput!
+  on_conflict: CreateUserUserOnConflict
+}
+
+input CreateUserUserOnConflict {
+  constraint: CreateUserUserConstraint!
+  update_columns: [CreateUserUserUpdateColumn!]!
+  where: CreateUserUserBoolExp
+}
+
+input CreateUserUserArrRelInsertInput {
+  data: [CreateUserUserInsertInput!]!
+  on_conflict: CreateUserUserOnConflict
+}
+
+input CreateUserInstitutionOnConflict {
+  constraint: CreateUserInstitutionConstraint!
+  update_columns: [CreateUserInstitutionUpdateColumn!]!
+  where: CreateUserInstitutionBoolExp
+}
+
+input CreateUserAddressOnConflict {
+  constraint: CreateUserAddressConstraint!
+  update_columns: [CreateUserAddressUpdateColumn!]!
+  where: CreateUserAddressBoolExp
+}
+
+input CredentialsInput {
+  email: String!
+  code: String!
+}
+
+type CreateUserOutput {
+  email: String!
+  id: Int!
+}
+
+type SignInOutput {
+  status: String!
+  message: String!
+}
+
+type AuthenticateOutput {
+  token: [jsonb!]
+  status: String!
+  message: String!
+}
+
+type RefreshTokenOutput {
+  token: [jsonb!]
+  status: String!
+  message: String!
+}
+
+type SignOutOutput {
+  status: String!
+  message: String!
+}
+

@@ -1,0 +1,18 @@
+table:
+  name: address
+  schema: public
+object_relationships:
+- name: institution
+  using:
+    foreign_key_constraint_on:
+      column: address_id
+      table:
+        name: institution
+        schema: public
+- name: user
+  using:
+    foreign_key_constraint_on:
+      column: address_id
+      table:
+        name: user
+        schema: public

@@ -1,0 +1,15 @@
+table:
+  name: item
+  schema: public
+object_relationships:
+- name: category
+  using:
+    foreign_key_constraint_on: category_id
+array_relationships:
+- name: item_institutions
+  using:
+    foreign_key_constraint_on:
+      column: item_id
+      table:
+        name: item_institution
+        schema: public

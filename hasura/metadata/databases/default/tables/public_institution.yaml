@@ -1,0 +1,32 @@
+table:
+  name: institution
+  schema: public
+object_relationships:
+- name: address
+  using:
+    foreign_key_constraint_on: address_id
+- name: user
+  using:
+    foreign_key_constraint_on: user_id
+array_relationships:
+- name: cause_institutions
+  using:
+    foreign_key_constraint_on:
+      column: institution_id
+      table:
+        name: cause_institution
+        schema: public
+- name: item_institutions
+  using:
+    foreign_key_constraint_on:
+      column: institution_id
+      table:
+        name: item_institution
+        schema: public
+- name: users
+  using:
+    foreign_key_constraint_on:
+      column: associated_id
+      table:
+        name: user
+        schema: public
