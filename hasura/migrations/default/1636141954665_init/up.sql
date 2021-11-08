@@ -64,7 +64,7 @@ CREATE TABLE public.institution (
     pix_key character varying,
     impacted_people integer,
     foundation_date timestamp without time zone DEFAULT now() NOT NULL,
-    is_active boolean DEFAULT true NOT NULL,
+    is_active boolean DEFAULT false NOT NULL,
     other_cause character varying,
     address_id integer,
     user_id integer
