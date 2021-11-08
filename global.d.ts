@@ -1,6 +1,7 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
-    HASURA_BASE_URL: string;
+    APP_ENV: string;
+    HASURA_GRAPHQL_ENDPOINT: string;
     HASURA_GRAPHQL_ADMIN_SECRET: string;
     HASURA_GRAPHQL_JWT_SECRET: string;
     HASURA_GRAPHQL_ACCESS_TOKEN_EXPIRES_IN: string;

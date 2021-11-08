@@ -123,28 +123,39 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     })
   }
 
-  // send email to user with his validation code
-  const mailResult = await sgMail({
-    from: `Compartilha.org <${process.env.SENDGRID_SIGNIN_EMAIL_FROM}>`,
-    to: email,
-    subject: 'Olá! Este é o seu código para entrar em Compartilha.org',
-    template_id: process.env.SENDGRID_SIGNIN_TEMPLATE_ID,
-    dynamic_template_data: {
-      auth_code: code,
-      auth_page: `https://compartilha.org/signin?email=${email}`,
-    },
-  })
-
-  // if email was sent successfully, then return success
-  if (mailResult.statusText === 'Accepted') {
+  // return the code directly if there is no api key and it is in development mode
+  if (
+    process.env.SENDGRID_API_KEY === 'mysendgridapikey' &&
+    process.env.APP_ENV === 'development'
+  ) {
     return res.status(200).json({
       status: 'success',
-      message: 'The access code has been sent to your email',
+      message: `You are in development mode, your code is: ${code}`,
     })
   } else {
-    return res.status(500).json({
-      status: 'error',
-      message: 'Something went wrong, try again later',
+    // send email to user with his validation code
+    const mailResult = await sgMail({
+      from: `Compartilha.org <${process.env.SENDGRID_SIGNIN_EMAIL_FROM}>`,
+      to: email,
+      subject: 'Olá! Este é o seu código para entrar em Compartilha.org',
+      template_id: process.env.SENDGRID_SIGNIN_TEMPLATE_ID,
+      dynamic_template_data: {
+        auth_code: code,
+        auth_page: `https://compartilha.org/signin?email=${email}`,
+      },
     })
+
+    // if email was sent successfully, then return success
+    if (mailResult.statusText === 'Accepted') {
+      return res.status(200).json({
+        status: 'success',
+        message: 'The access code has been sent to your email',
+      })
+    } else {
+      return res.status(500).json({
+        status: 'error',
+        message: 'Something went wrong, try again later',
+      })
+    }
   }
 }
