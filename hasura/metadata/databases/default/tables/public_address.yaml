@@ -16,3 +16,19 @@ object_relationships:
       table:
         name: user
         schema: public
+select_permissions:
+- permission:
+    columns:
+    - city
+    - complement
+    - id
+    - neighborhood
+    - number
+    - state
+    - street
+    - zip
+    filter:
+      institution:
+        is_active:
+          _eq: true
+  role: guest

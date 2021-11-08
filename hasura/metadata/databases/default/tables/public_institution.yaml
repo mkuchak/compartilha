@@ -30,3 +30,21 @@ array_relationships:
       table:
         name: user
         schema: public
+select_permissions:
+- permission:
+    columns:
+    - company_name
+    - description
+    - foundation_date
+    - id
+    - impacted_people
+    - inscription
+    - other_cause
+    - picture
+    - pix_key
+    - trading_name
+    filter:
+      is_active:
+        _eq: true
+    limit: 20
+  role: guest
