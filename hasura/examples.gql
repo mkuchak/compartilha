@@ -542,7 +542,7 @@ type SignInOutput {
 }
 
 # Handler
-# {{ACTION_BASE_URL}}/signin
+# {{ACTION_BASE_URL}}/api/signin
 
 # To consult
 mutation ($email: String!) {
@@ -575,7 +575,7 @@ type AuthenticateOutput {
 }
 
 # Handler
-# {{ACTION_BASE_URL}}/authenticate
+# {{ACTION_BASE_URL}}/api/authenticate
 
 # Headers
 # ✔️ Forward client headers to webhook
@@ -610,7 +610,7 @@ type RefreshTokenOutput {
 }
 
 # Handler
-# {{ACTION_BASE_URL}}/refreshtoken
+# {{ACTION_BASE_URL}}/api/refreshtoken
 
 # Headers
 # ✔️ Forward client headers to webhook
@@ -637,7 +637,7 @@ type SignOutOutput {
 }
 
 # Handler
-# {{ACTION_BASE_URL}}/signout
+# {{ACTION_BASE_URL}}/api/signout
 
 # Headers
 # ✔️ Forward client headers to webhook
