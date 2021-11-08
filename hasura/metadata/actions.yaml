@@ -3,20 +3,32 @@ actions:
   definition:
     kind: synchronous
     handler: '{{ACTION_BASE_URL}}/api/authenticate'
+  permissions:
+  - role: guest
+  - role: user
 - name: RefreshToken
   definition:
     kind: synchronous
     handler: '{{ACTION_BASE_URL}}/api/refreshtoken'
     forward_client_headers: true
+  permissions:
+  - role: user
+  - role: guest
 - name: SignIn
   definition:
     kind: synchronous
     handler: '{{ACTION_BASE_URL}}/api/signin'
+  permissions:
+  - role: user
+  - role: guest
 - name: SignOut
   definition:
     kind: synchronous
     handler: '{{ACTION_BASE_URL}}/api/signout'
     forward_client_headers: true
+  permissions:
+  - role: guest
+  - role: user
 custom_types:
   enums:
   - name: CreateUserCauseConstraint
