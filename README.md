@@ -14,6 +14,9 @@ Starting the project with Docker will up 4 applications:
 - **Postgres (Database)**: compartilha-postgres
 
 ```bash
+# first thing of all, copy .env.example file
+cp .env.example .env
+
 # start all apps
 docker-compose up -d
 
@@ -44,6 +47,9 @@ npm outdated
 
 # and most important, before commit, test the app to know if all is running fine
 npm run build
+
+# to see logs of `npm run dev`
+docker logs -f compartilha-app
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
