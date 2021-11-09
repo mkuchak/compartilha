@@ -1,34 +1,89 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# [Compartilha.org](https://compartilha.org)
 
-## Getting Started
+[Compartilha.org](https://compartilha.org) is an open source project to find institutions and social organizations that need contributions to sustain themselves.
 
-First, run the development server:
+## How to contribute to development
+
+### Starting project
+
+Starting the project with Docker will up 4 applications:
+
+- **Front-end (Next.js App)**: compartilha-app
+- **Back-end (GraphQL Engine)**: compartilha-hasura
+- **Console (Hasura CLI)**: compartilha-console
+- **Postgres (Database)**: compartilha-postgres
 
 ```bash
-npm run dev
-# or
-yarn dev
+# start all apps
+docker-compose up -d
+
+# rebuild apps without delete any data
+docker-compose up -d --build -V
+
+# delete all apps as well as their volumes (deleting data)
+docker-compose down -v --remove-orphans
+```
+
+### Managing front-end
+
+The container `compartilha-app` with the front-end application already installs all dependencies, starts in development mode, and nothing else is needed to start development.
+
+However, to install/uninstall packages directly from the container or run some command linked to Node.js/NPM or Git, you can enter it and manage as you prefer:
+
+```bash
+# to enter the container
+docker exec -it compartilha-app bash
+
+# now execute npm commands...
+
+# to lint app
+npm run lint
+
+# ckeck outdated packates
+npm outdated
+
+# and most important, before commit, test the app to know if all is running fine
+npm run build
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `pages/index.ts`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) (serverless functions) instead of React pages.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Managing back-end
 
-## Learn More
+Most things already are automated by the Hasura Console, but to manage the back-end in some cases we will use Hasura CLI via the `compartilha-console` container:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# to enter the container
+docker exec -it compartilha-console bash
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# and some useful commands to manage Hasura...
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# apply or remove only one database migration
+hasura migrate apply --version 1636141954665 --type up
+hasura migrate apply --version 1636141954665 --type down
 
-## Deploy on Vercel
+# rollback some migration
+hasura migrate apply --goto 1636141954665
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# merge all migrations into one
+hasura migrate squash --name "some description" --from 1636141954665
+hasura migrate apply --skip-execution --version 1636141954665 # after that, skip migration execution because it has already been applied
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# get hasura migration status to know if all migrations are ok
+hasura migrate status
+
+# for more commands check the hasura cli documentation.
+```
+
+## Frameworks documentations
+
+To learn more about the frameworks, take a look at the following documentations:
+
+- [Hasura GraphQL Engine](https://hasura.io/docs/latest/graphql/core/index.html) - Hasura engine makes your data instantly accessible over a real-time GraphQL API
+- [Next.js](https://nextjs.org/docs) - Next.js gives you the best developer experience with all the features you need for production
+- [React](https://reactjs.org/docs/getting-started.html) - A JavaScript library for building user interfaces
+- [TailwindCSS](https://tailwindcss.com/) - Rapidly build modern websites without ever leaving your HTML
