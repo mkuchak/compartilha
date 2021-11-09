@@ -60,7 +60,9 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 ### Managing back-end
 
-Most things already are automated by the Hasura Console, but to manage the back-end in some cases we will use Hasura CLI via the `compartilha-console` container:
+Most things already are automated by the Hasura Console, but to manage the back-end in some cases we will use Hasura CLI via the `compartilha-console` container.
+
+To access Hasura Console open [http://localhost:9695/console](http://localhost:9695/console) in your browser. Everything you modify within the console will be reflected in the Hasura folder with its respective migrations and metadata, **so be careful when making changes**.
 
 ```bash
 # to enter the container
