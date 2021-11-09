@@ -39,10 +39,10 @@ docker exec -it compartilha-app bash
 
 # now execute npm commands...
 
-# to lint app
-npm run lint
+# to lint files from app
+npm run lint -- --fix
 
-# ckeck outdated packates
+# check outdated packages
 npm outdated
 
 # and most important, before commit, test the app to know if all is running fine
