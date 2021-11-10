@@ -22,7 +22,7 @@ services:
       - ./.env
   graphql-engine:
     container_name: compartilha-hasura
-    image: hasura/graphql-engine:v2.0.9
+    image: hasura/graphql-engine:v2.0.10
     ports:
       - "8080:8080"
     depends_on:
