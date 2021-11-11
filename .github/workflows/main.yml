@@ -1,0 +1,26 @@
+name: Deploy Hasura Environment
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  HASURA_GRAPHQL_ENDPOINT: ${{ secrets.HASURA_GRAPHQL_ENDPOINT }}
+  HASURA_GRAPHQL_ADMIN_SECRET: ${{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Hasura CLI
+        run: curl -L https://github.com/hasura/graphql-engine/raw/stable/cli/get.sh | bash
+
+      - name: Update Migrations and Metadata
+        working-directory: hasura
+        run: |
+          hasura migrate apply --database-name=default
+          hasura metadata apply
