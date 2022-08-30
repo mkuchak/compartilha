@@ -1,6 +1,6 @@
-# [Compartilha.org](https://compartilha.org)
+# Compartilha
 
-**[Compartilha.org](https://compartilha.org)** is an open source project to find institutions and social organizations that need contributions to sustain themselves.
+Compartilha is an open source project to [find institutions and social organizations](https://www.correiodopovo.com.br/correiomaisinterior/uniju%C3%AD-cria-plataforma-para-facilitar-doa%C3%A7%C3%B5es-a-entidades-1.436908) that need contributions to sustain themselves.
 
 ## This app was built with
 
